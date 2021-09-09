@@ -5,7 +5,7 @@ public class ExampleTwo {
         System.out.println("A");
         System.out.print("B");
         System.out.print("C");
-        System.out.println("D");
+        System.out.print("D");
         System.out.println("E");
         //A
         //BCD
