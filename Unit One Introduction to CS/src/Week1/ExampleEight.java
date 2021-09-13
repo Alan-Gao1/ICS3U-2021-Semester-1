@@ -15,6 +15,7 @@ public class ExampleEight {
         System.out.println(average);
 
         double z = 4.5;
+        int a;
         int y = (int) z;
     }
 }
