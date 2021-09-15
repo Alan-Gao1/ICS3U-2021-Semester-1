@@ -58,5 +58,6 @@ public class UnitOneHomework {
         double x25= ((0-b5)-Math.sqrt(Math.pow(b5, 2)-4*a5*c5))/2*a5;
         System.out.println(x15);
         System.out.println(x25);
+        
     }
 }
