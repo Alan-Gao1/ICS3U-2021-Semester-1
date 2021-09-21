@@ -4,10 +4,10 @@ public class StudentExample {
     public static void main(String[] args) {
         Student shohei;
         shohei = new Student("Shohei", "12946", 11);
-        //Shohei is a student (object variable) and has been brought to life by the power of vscode
+        //Shohei is a student (object variable) and has been brought to life
         Student samantha = new Student("Samantha", "18471", 11);
         Student alan = shohei;
-        //called the method increaseGrade(), because alan and shohei reference the same student object,
+        //called the method increaseGrade(), because alan and shohei reference the same object
         //they are the same increase in grade and are both in grade 12
         alan.increaseGrade();
         //we activate methods through the object (e.g. alan.WhateverThisFunctionIs
@@ -28,6 +28,8 @@ public class StudentExample {
         alan.displayAverage();
         alan.addTest(67);
         alan.displayAverage();
+        //double avg = alan.getAverage(); not use
+        System.out.println(alan.getName()+" has an average of " + alan.getAverage());
         //alan.numMarks = 7; dont have access to private stuff
     }
 }

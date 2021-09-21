@@ -37,6 +37,10 @@ public class Student {
   public void displayName() {
     System.out.println(name);
   }
+
+  public String getName(){
+    return name;
+  }
 /**
  *A void method performs a task and does not return a value
  */
@@ -59,6 +63,10 @@ public class Student {
   //naming method convention is the same for variables - camelCase
   public void displayAverage(){
     System.out.println(average);
+  }
+
+  public double getAverage(){
+    return average;
   }
 
   public void addTest(int mark){
