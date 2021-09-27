@@ -9,13 +9,6 @@ public class BayviewGlenPools {
         final int shallowHeight = 2;
         final int deepHeight = 5;
         final double linerCost = 0.5;
-        /*final int length = 20;
-        final int width = 8;
-        final int transition = 7;
-        final int shallowLength = 5;
-        final int shallowHeight = 3;
-        final int deepHeight = 8;
-        final double linerCost = 2.0;*/
         System.out.println("List of values used:\nLength: "+length+"\nWidth: "+width+"\nTransition Length: "+transition+"\nLength of the Shallow End: "+shallowLength+"\nHeight of the Shallow End: "+shallowHeight+"\nHeight of the Deep End: "+deepHeight+"\nCost of the Liner: "+linerCost+"\n");
         System.out.println("Calculations:");
         System.out.println("Volume of the pool at 90% capacity: "+round((calculateVolume(shallowLength, shallowHeight, deepHeight, calculateStraightTransition(transition, shallowHeight, deepHeight), length, width))*0.9));
