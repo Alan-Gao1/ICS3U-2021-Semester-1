@@ -15,10 +15,11 @@ public class BayviewGlenPools {
         System.out.println("List of values used:\nLength: "+length+"\nWidth: "+width+"\nTransition Length: "+transition+"\nLength of the Shallow End: "+shallowLength+"\nHeight of the Shallow End: "+shallowHeight+"\nHeight of the Deep End: "+deepHeight+"\nCost of the Liner: "+linerCost+"\n");
 
         System.out.println("Calculations:");
+        
         System.out.println("Volume of the pool at 90% capacity: "+round(calculateVolume(shallowLength, shallowHeight, deepHeight, straightTransition, length, width, heightChange)));
 
         System.out.println("Surface Area of the Liner: "+round(amountOfLiner(shallowLength, shallowHeight, deepHeight, straightTransition, transition, length, width, heightChange))+" m^2");
-        
+
         System.out.println("Cost of the Liner: "+round(costOfLiner(amountOfLiner(shallowLength, shallowHeight, deepHeight, straightTransition, transition, length, width, heightChange), linerCost)));
     }
     public static double round(double num){
