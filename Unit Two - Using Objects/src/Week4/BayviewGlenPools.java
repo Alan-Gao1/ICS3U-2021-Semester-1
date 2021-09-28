@@ -16,7 +16,7 @@ public class BayviewGlenPools {
 
         System.out.println("Calculations:");
 
-        System.out.println("Volume of the pool at 90% capacity: "+round(calculateVolume(shallowLength, shallowHeight, deepHeight, straightTransition, length, width, heightChange)));
+        System.out.println("Volume of the pool at 90% capacity: "+round(calculateVolume(shallowLength, shallowHeight, deepHeight, straightTransition, length, width, heightChange)*.9));
 
         System.out.println("Surface Area of the Liner: "+round(amountOfLiner(shallowLength, shallowHeight, deepHeight, straightTransition, transition, length, width, heightChange))+" m^2");
 
