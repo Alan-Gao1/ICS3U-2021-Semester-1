@@ -1,4 +1,4 @@
-package Week2.Week3;
+package Week3;
 
 public class RandomExamples {
     public static void main(String[] args) {
