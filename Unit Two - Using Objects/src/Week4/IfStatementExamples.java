@@ -4,6 +4,21 @@ public class IfStatementExamples {
     public static void main(String[] args) {
         exampleOne();
         exampleTwo(77);
+        exampleThree();
+    }
+    private static void exampleThree() {
+        //OR = || (if either is true, the entire thing is true)
+        //AND = && (if either is false, the entire thing is false; everything must be true for the statement to be true)
+        /**
+         * >
+         * <
+         * ==
+         * <=
+         * >=
+         * ==
+         * != (not equals)
+         * !(x>7) IS BASICALLY x is NOT bigger than 7 OR x is LESS THAN OR EQUAL TO 7
+         */
     }
     private static void exampleTwo(int mark){
         if (mark >= 90){
