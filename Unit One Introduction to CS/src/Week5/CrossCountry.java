@@ -5,9 +5,11 @@ import java.util.Scanner;
 public class CrossCountry {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
+        
         studentInput(in, 1);
         studentInput(in, 2);
         studentInput(in, 3);
+
         in.close();
     }
     public static void studentInput(Scanner in, int n){
