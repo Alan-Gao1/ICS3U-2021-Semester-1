@@ -9,6 +9,7 @@ public class DeMorgansLaw {
         System.out.println(result);
 
         boolean result2 = !((x<3)&&(x>10));
+        
         System.out.println(result2);
     }
 }
