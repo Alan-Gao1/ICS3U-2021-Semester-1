@@ -3,6 +3,9 @@ package Week5;
 import java.util.Scanner;
 
 public class CrossCountry {
+    /**
+     * The main method calls the studentInput function 3 times for each student and intializes the scanner and closes it afterwards
+     */
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         
@@ -12,7 +15,12 @@ public class CrossCountry {
 
         in.close();
     }
-    
+
+    /**
+     * This function takes in all the inputs from the user and calls the other functions to print the final results
+     * @param in Scanner that takes input from the user
+     * @param n The integer that indicates Student 1, 2, or 3
+     */
     public static void studentInput(Scanner in, int n){
         System.out.print("Please enter your name: ");
         String name = in.nextLine();
@@ -34,6 +42,12 @@ public class CrossCountry {
         System.out.print("Other stats (cause why not) \nAverage speed: " + round(5000/convertToSeconds(total)) + " m/s \nSpeed of fastest split: "+ Math.max(Math.max(round(1000/(convertToSeconds(secondKilometer) - convertToSeconds(firstKilometer))), round(3000/((convertToSeconds(total) - convertToSeconds(secondKilometer))))),round(1000/convertToSeconds(firstKilometer))));
         System.out.println(" m/s\n");
     }
+
+    /**
+     * roundes a double to the nearest hundreth
+     * @param num - the number to be rounded
+     * @return - returns the rounded number
+     */
     public static double round(double num){
         num +=0.0005;
         num *= 1000;
@@ -42,6 +56,12 @@ public class CrossCountry {
         num /= 1000;
         return num;
     }
+
+    /**
+     * This method takes the inputed time in minutes:seconds.miliseconds and converts it to a double of just seconds and rounds it
+     * @param time - takes the String of time to be converted
+     * @return - returns the total seconds (e.g. 34.211)
+     */
     public static double convertToSeconds(String time){
         int ind = time.indexOf(":");
         int minutes = Integer.parseInt(time.substring(0,ind));
@@ -49,6 +69,11 @@ public class CrossCountry {
         double total = (minutes*60)+remaining;
         return round(total);
     }
+
+    /**
+     * takes a time (e.g 29.381) and converts it back to the standard format which the user used
+     * @param time - takes in the double of time and prints it with printf in the format
+     */
     public static void convertToTime(double time){
         double remainder = time%60;
         remainder = round(remainder);
@@ -56,6 +81,13 @@ public class CrossCountry {
         System.out.printf("%d:%06.3f", minutes, remainder);
 
     }
+
+    /**
+     * subtracts two times after converting them into seconds through the convertToSeconds function
+     * @param first - the first number
+     * @param second - the second number
+     * @return - returns first-second
+     */
     public static double subtractTimes(String first, String second) {
         double difference = convertToSeconds(first)-convertToSeconds(second);
         return difference;
