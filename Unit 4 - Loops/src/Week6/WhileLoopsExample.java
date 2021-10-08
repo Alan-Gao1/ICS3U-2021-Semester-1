@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class WhileLoopsExample {
     public static void main(String[] args) {
         exampleOne();
-        int sum = getSumInclusive(1, 9);
+        int sum = getSumInclusive(1, 100);
         System.out.println(sum);
         int numVowels = countVowels("This is a sentence with VOWELS!");
         System.out.println(numVowels);
@@ -19,12 +19,28 @@ public class WhileLoopsExample {
         return 0;
      }
   
-     private static int getSumInclusive(int i, int j) {
-        return 0;
+     private static int getSumInclusive(int start, int end) {
+        int sum = 0;
+        int count = start;
+        while(count<=end){
+            sum+=count;
+            count++;
+        }
+        return sum;
      }
   
-     private static int countVowels(String string) {
-        return 0;
+     private static int countVowels(String str) {
+        int numVowels = 0;
+        int index = 0;
+        String vowels = "AEIOUaeiou";
+        while (index<str.length()) {
+            String nextChar = str.substring(index, index+1);
+            if(vowels.indexOf(nextChar)>=0){
+                numVowels++;
+            }
+            index++;
+        }
+        return numVowels;
      }
   
      private static void exampleOne() {
@@ -32,7 +48,9 @@ public class WhileLoopsExample {
         int count = 1;
         int sum = 0;
         while(count<=100){
-            
+            sum += count;
+            count++;
         }
+        System.out.println(sum);
      }
   }
