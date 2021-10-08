@@ -12,6 +12,7 @@ public class CrossCountry {
 
         in.close();
     }
+    
     public static void studentInput(Scanner in, int n){
         System.out.print("Please enter your name: ");
         String name = in.nextLine();
