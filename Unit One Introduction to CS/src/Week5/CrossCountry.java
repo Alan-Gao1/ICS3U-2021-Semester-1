@@ -72,7 +72,8 @@ public class CrossCountry {
 
     /**
      * takes a time (e.g 29.381) and converts it back to the standard format which the user used
-     * @param time - takes in the double of time and prints it with printf in the format
+     * @param time - takes in the double of time
+     * prints the time with printf to keep the same format
      */
     public static void convertToTime(double time){
         double remainder = time%60;
@@ -86,7 +87,7 @@ public class CrossCountry {
      * subtracts two times after converting them into seconds through the convertToSeconds function
      * @param first - the first number
      * @param second - the second number
-     * @return - returns first-second
+     * @return - returns the double that is first-second
      */
     public static double subtractTimes(String first, String second) {
         double difference = convertToSeconds(first)-convertToSeconds(second);
