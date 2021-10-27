@@ -11,25 +11,13 @@ public class CrazyEights {
     private static int drawn = 0;
     private static String c1Hand = "";
     private static String c2Hand = "";
+    private static String p1Hand = "";
+    private static String played = "";
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        String p1Hand = "";
-        String card = "";
-        String played = "";
         int counter = 0;
         int winner = 0;
-        for(int i = 0; i<5; i++){
-            card = drawCard();
-            c1Hand += card;
-            card = drawCard();
-            c2Hand += card;
-            card = drawCard();
-            p1Hand += card;
-        }
-        played = drawCard();
-        while(played.substring(0,1).equals("8")){
-            played = drawCard();
-        }
+        intialSetup();
         boolean allHandsOne = true;
         while((c1Score<100&&c2Score<100&&p1Score<100)&&allHandsOne){
             if(counter%3==0){
@@ -115,6 +103,17 @@ public class CrazyEights {
         }
         winnerOut(c1Score, c2Score, p1Score, winner);
         in.close();
+    }
+    private static void intialSetup() {
+        for(int i = 0; i<5; i++){
+            c1Hand += drawCard();
+            c2Hand += drawCard();
+            p1Hand += drawCard();
+        }
+        played = drawCard();
+        while(played.substring(0,1).equals("8")){
+            played = drawCard();
+        }
     }
     private static String drawUntilValid(int drawn, String curPlay, String curHand, String otherHand, String p1Hand, String played, int player) {
         if(player==1){
