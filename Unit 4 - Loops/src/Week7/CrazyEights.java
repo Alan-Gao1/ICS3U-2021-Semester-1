@@ -21,7 +21,7 @@ public class CrazyEights {
         boolean allHandsOne = true;
         while((c1Score<100&&c2Score<100&&p1Score<100)&&allHandsOne){
             if(counter%3==0){
-                System.out.println("\n---COMPUTER 1'S TURN---");
+                System.out.println("\n---------COMPUTER 1'S TURN---------");
                 System.out.println("Top card: "+played);
                 String c1Play = cLogic(c1Hand, c2Hand, p1Hand, played);
                 drawn = 0;
@@ -29,19 +29,22 @@ public class CrazyEights {
                 if(!c1Play.equals("NONE")){
                     played = c1Play;
                     System.out.println("Computer 1 plays "+played);
-                    int ind = c1Hand.indexOf(played);
-                    if(isTen(c1Play)){
-                        c1Hand = c1Hand.substring(0,ind) + c1Hand.substring(ind+3);
-                    }else if(!c1Play.equals("NONE")){
-                        c1Hand = c1Hand.substring(0,ind) + c1Hand.substring(ind+2);
+                    if(isTen(c1Play)&&!played.substring(0,1).equals("8")){
+                        c1Hand = c1Hand.substring(0,c1Hand.indexOf(played)) + c1Hand.substring(c1Hand.indexOf(played)+3);
+                    }else if(!c1Play.equals("NONE")&&!played.substring(0,1).equals("8")){
+                        c1Hand = c1Hand.substring(0,c1Hand.indexOf(played)) + c1Hand.substring(c1Hand.indexOf(played)+2);
+                    }else if(played.substring(0,1).equals("8")){
+                        System.out.println("Suit changed to "+played.substring(1,2));
+                        c1Hand = c1Hand.substring(0,c1Hand.indexOf("8")) + c1Hand.substring(c1Hand.indexOf("8")+2);
                     }
                 }else if(drawn==5 && c1Play.equals("NONE")){
                     System.out.println("Computer 1 has no more cards to play. Moving on.");
                 }
                 c1Score = calculateScore(c1Hand);
                 System.out.println(c1Score);
+                System.out.println(c1Hand);
             }else if(counter%3==1){
-                System.out.println("\n---COMPUTER 2'S TURN---");
+                System.out.println("\n---------COMPUTER 2'S TURN---------");
                 System.out.println("Top card: "+played);
                 String c2Play = cLogic(c2Hand, c1Hand, p1Hand, played);
                 drawn = 0;
@@ -49,24 +52,27 @@ public class CrazyEights {
                 if(!c2Play.equals("NONE")){
                     played = c2Play;
                     System.out.println("Computer 2 plays "+played);
-                    int ind = c2Hand.indexOf(played);
-                    if(isTen(c2Play)){
-                        c2Hand = c2Hand.substring(0,ind) + c2Hand.substring(ind+3);
-                    }else if(!c2Play.equals("NONE")){
-                        c2Hand = c2Hand.substring(0,ind) + c2Hand.substring(ind+2);
+                    if(isTen(c2Play)&&!played.substring(0,1).equals("8")){
+                        c2Hand = c2Hand.substring(0,c2Hand.indexOf(played)) + c2Hand.substring(c2Hand.indexOf(played)+3);
+                    }else if(!c2Play.equals("NONE")&&!played.substring(0,1).equals("8")){
+                        c2Hand = c2Hand.substring(0,c2Hand.indexOf(played)) + c2Hand.substring(c2Hand.indexOf(played)+2);
+                    }else{
+                        c2Hand = c2Hand.substring(0,c2Hand.indexOf("8")) + c2Hand.substring(c2Hand.indexOf("8")+2);
                     }
                 }else if(drawn==5 && c2Play.equals("NONE")){
                     System.out.println("Computer 2 has no more cards to play. Moving on.");
                 }
                 c2Score = calculateScore(c2Hand);
                 System.out.println(c2Score);
+                System.out.println(c2Hand);
             }else{
-                System.out.println("\n---PLAYER 1'S TURN---");
+                System.out.println("\n---------PLAYER 1'S TURN---------");
                 System.out.println("Top card: "+played);
                 System.out.println("YOUR CURRENT HAND: "+p1Hand);
                 drawn = 0;
                 while(drawn<5&&!validInHand(p1Hand, played)){
-                    System.out.println("You do not have a valid card in your hand to play.");
+                    System.out.println("\nYou do not have a valid card in your hand to play.");
+                    System.out.println("Drawing a card...\n");
                     drawn++;
                     p1Hand += drawCard();
                     System.out.println("CURRENT CARD: "+played);
@@ -114,6 +120,9 @@ public class CrazyEights {
         while(played.substring(0,1).equals("8")){
             played = drawCard();
         }
+        c1Score = calculateScore(c1Hand);
+        c2Score = calculateScore(c2Hand);
+        p1Score = calculateScore(p1Hand);
     }
     private static String drawUntilValid(int drawn, String curPlay, String curHand, String otherHand, String p1Hand, String played, int player) {
         if(player==1){
@@ -123,11 +132,9 @@ public class CrazyEights {
         }
         while(curPlay.equals("NONE")&&drawn<5){
             curHand += drawCard();
-            // hand doesnt save changes outside of this method
             curPlay = cLogic(curHand, otherHand, p1Hand, played);
-            // global variable for c1Hand and c2Hand and pass in an integer to indicate which and which to draw in this function
             drawn++;
-            System.out.println("Computer "+player+" draws.");
+            System.out.println("Computer "+player+" draws a card.");
         }
         if(player==1){
             c1Hand = curHand;
@@ -139,14 +146,22 @@ public class CrazyEights {
     private static void winnerOut(int c1Score, int c2Score, int p1Score, int winner) {
         winner = Math.min(c1Score, Math.min(c2Score, p1Score));
         if(winner==c1Score){
-            System.out.println("COMPUTER ONE HAS WON!");
+            System.out.println("\nCOMPUTER ONE HAS WON!");
+            System.out.println("--------------------");
+            System.out.println("Computer 2's hand: "+c2Hand);
+            System.out.println("Your Hand: "+p1Hand);
         }else if(winner==c2Score){
             System.out.println("COMPUTER TWO HAS WON!");
+            System.out.println("--------------------");
+            System.out.println("Computer 1's hand: "+c1Hand);
+            System.out.println("Your Hand: "+p1Hand);
         }else{
-            System.out.println("YOU (THE PLAYER) HAS WON! CONGRATULATIONS! YOU HAVE WON THIS COMPLETLY USELESS PRIZE!");
+            System.out.println("-----------------------------------\nYOU (THE PLAYER) HAS WON! CONGRATULATIONS! YOU HAVE WON THIS COMPLETLY USELESS PRIZE!");
             System.out.println("**********");
             System.out.println("*CONGRATS*");
             System.out.println("**********");
+            System.out.println("Computer 1's hand: "+c1Hand);
+            System.out.println("Computer 2's hand: "+c2Hand);
         }
     }
     private static String getWildSuit(Scanner in) {
@@ -206,21 +221,18 @@ public class CrazyEights {
     private static int calculateScore(String hand){
         int score = 0;
         for(int i = 0; i<hand.length(); i++){
-            String currentChar = hand.substring(i,i+1);
-            if(currentChar.equals("K")||currentChar.equals("Q")||currentChar.equals("J")){
-                score += 10;
-            }else if(currentChar.equals("10")){
-                score += 10;
-                i++;
-            }else if(currentChar.equals("A")){
-                score += 1;
-            }else if(currentChar.equals("2")||currentChar.equals("3")||currentChar.equals("4")||currentChar.equals("5")||currentChar.equals("6")||currentChar.equals("7")||currentChar.equals("8")||currentChar.equals("9")){
-                score += Integer.parseInt(currentChar);
-            }else if(currentChar.equals("H")||currentChar.equals("C")||currentChar.equals("S")||currentChar.equals("D")){
+            String cur = hand.substring(i, i+1);
+            if(cur.equals("1")){
+                score+=10;
+            }else if(cur.equals("K")||cur.equals("Q")||cur.equals("J")){
+                score+=10;
+            }else if(cur.equals("9")||cur.equals("7")||cur.equals("6")||cur.equals("5")||cur.equals("4")||cur.equals("3")||cur.equals("2")){
+                int num = Integer.parseInt(cur);
+                score += num;
+            }else if(cur.equals("8")){
+                score +=50;
+            }else if(cur.equals("A")){
                 score++;
-                score--;
-            }else if(currentChar.equals("0")){
-                score += 0;
             }
         }
         if(hand.length()==0){
@@ -241,100 +253,102 @@ public class CrazyEights {
         return validInHand;
     }
     private static String cLogic(String curHand, String otherHand, String p1Hand, String played) {
-        String pface = "";
-        String psuit = played.substring(played.length()-1);
+        String playedFace = played.substring(0,played.length()-1);
+        String playedSuit = played.substring(played.length()-1);
         String tempPlay = "";
-        boolean faceIn = faceIn(played, curHand, isTen(played));
-        boolean suitIn = suitIn(played, curHand);
-        String tempHand = curHand;
-        boolean isEight = false;
-        if((otherHand.length()<4||p1Hand.length()<4)&&(curHand.indexOf("8")>=0||faceIn)){
-            if(isTen(played)){
-                pface = played.substring(0,2);
-            }else{
-                pface = played.substring(0,1);
-            }
-            if(faceIn){
-                if(isTen(played)){
+        if((otherHand.length()<4||p1Hand.length()<4)&&(faceIn(played, curHand)||eightIn(curHand))){
+            if(faceIn(played, curHand)){
+                if(tenIn(curHand)){
                     tempPlay = curHand.substring(curHand.indexOf("10"), curHand.indexOf("10")+3);
                 }else{
-                    tempPlay = curHand.substring(curHand.indexOf(pface), curHand.indexOf(pface)+2);
+                    tempPlay = curHand.substring(curHand.indexOf(playedFace), curHand.indexOf(playedFace)+2);
                 }
-            }else{
-                tempPlay = curHand.substring(curHand.indexOf("8"), curHand.indexOf("8")+2);
+            }else if(eightIn(curHand)){
+                tempPlay = curHand.substring(curHand.indexOf("8"), curHand.indexOf("8")+1);
+                tempPlay += cWildSuit(curHand);
             }
-        }else if(suitIn){
-            int ind = curHand.indexOf(psuit);
-            if(curHand.substring(ind-1,ind).equals("0")){
-                tempPlay = curHand.substring(ind-2, ind+1);
-            }else{
+        }else if(suitIn(played, curHand)){
+            int ind = curHand.indexOf(playedSuit);
+            if(!curHand.substring(ind-1, ind).equals("8")&&!curHand.substring(ind-1, ind).equals("0")){
                 tempPlay = curHand.substring(ind-1, ind+1);
-            }
-            if(tempPlay.indexOf("8")>=0){
-                isEight = true;
-                while(isEight){
-                    if(isTen(played)){
-                        tempHand = tempHand.substring(0,tempHand.indexOf(tempPlay)) + tempHand.substring(tempHand.indexOf(tempPlay)+3);
-                    }else{
-                        tempHand = tempHand.substring(0,tempHand.indexOf(tempPlay)) + tempHand.substring(tempHand.indexOf(tempPlay)+2);
-                    }
-                    ind = tempHand.indexOf(psuit);
-                    if(ind == -1){
-                        tempPlay = "NONE";
-                    }else if(isTen(played)){
-                        tempPlay = tempHand.substring(ind-2, ind+1);
-                    }else{
+            }else if(!curHand.substring(ind-1, ind).equals("8")){
+                tempPlay = curHand.substring(ind-2, ind+1);
+            }else if(curHand.substring(ind-1, ind).equals("8")){
+                String tempHand = curHand;
+                while(tempHand.indexOf("8")>=0){
+                    tempHand = tempHand.substring(0,curHand.indexOf("8"))+tempHand.substring(curHand.indexOf("8")+2);
+                }
+                if(suitIn(played, tempHand)){
+                    ind = curHand.indexOf(playedSuit);
+                    if(!curHand.substring(ind-1, ind).equals("0")){
                         tempPlay = tempHand.substring(ind-1, ind+1);
+                    }else{
+                        tempPlay = tempHand.substring(ind-2, ind+1);
                     }
-                    if(tempPlay.indexOf("8")<0){
-                        isEight = false;
-                    }
+                }else{
+                    tempPlay = "NONE";
                 }
             }
-        }else if(faceIn){
-            int ind = 0;
-            if(isTen(played)){
-                pface = played.substring(0,2);
-            }else{
-                pface = played.substring(0,1);
-            }
-            ind = curHand.indexOf(pface);
-            if(isTen(played)){
-                tempPlay = curHand.substring(ind, ind+3);
-            }else{
+        }else if(faceIn(played, curHand)){
+            int ind = curHand.indexOf(playedFace);
+            if(!curHand.substring(ind,ind+1).equals("8")&&!curHand.subSequence(ind, ind+1).equals("0")){
                 tempPlay = curHand.substring(ind, ind+2);
-            }
-            if(tempPlay.indexOf("8")>=0){
-                isEight = true;
-                while(isEight){
-                    if(isTen(played)){
-                        tempHand = tempHand.substring(0,ind)+tempHand.substring(ind+3);
-                    }else{
-                        tempHand = tempHand.substring(0,ind) + tempHand.substring(ind+2);
-                    }
-                    ind = tempHand.indexOf(pface);
-                    if(ind == -1){
-                        tempPlay = "NONE";
-                    }else if(isTen(played)){
-                        tempPlay = tempHand.substring(ind, ind+3);
-                    }else{
+            }else if(!curHand.substring(ind,ind+1).equals("8")){
+                tempPlay = curHand.substring(ind, ind+3);
+            }else if(curHand.substring(ind, ind+1).equals("8")){
+                String tempHand = curHand;
+                while(tempHand.indexOf("8")>=0){
+                    tempHand = tempHand.substring(0,curHand.indexOf("8"))+tempHand.substring(curHand.indexOf("8")+2);
+                }
+                if(faceIn(played, tempHand)){
+                    ind = curHand.indexOf(playedFace);
+                    if(!curHand.substring(ind, ind+1).equals("0")){
                         tempPlay = tempHand.substring(ind, ind+2);
+                    }else{
+                        tempPlay = tempHand.substring(ind, ind+1);
                     }
-                    if(tempPlay.indexOf("8")<0){
-                        isEight = false;
-                    }
+                }else{
+                    tempPlay = "NONE";
                 }
             }
-        }else if(curHand.indexOf("8")>=0){
-            int ind = curHand.indexOf("8");
-            tempPlay = curHand.substring(ind,ind+2);
+        }else if(eightIn(curHand)){
+            tempPlay = curHand.substring(curHand.indexOf("8"), curHand.indexOf("8")+1);
+            tempPlay += cWildSuit(curHand);
         }else{
             tempPlay = "NONE";
         }
         return tempPlay;
     }
-    private static boolean faceIn(String card, String hand, boolean ten) {
-        if(ten){
+    private static String cWildSuit(String curHand) {
+        boolean validSuit = false;
+        int ind = (int)(Math.random()*4);
+        String ans = "";
+        while(!validSuit){
+            if(curHand.indexOf(SUITS.substring(ind, ind+1))>=0){
+                ans = SUITS.substring(ind, ind+1);
+                validSuit = true;
+            }else{
+                ind = (int)(Math.random()*4);
+            }
+        }
+        return ans;
+    }
+    private static boolean tenIn(String curHand) {
+        if(curHand.indexOf("10")>=0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    private static boolean eightIn(String curHand) {
+        if(curHand.indexOf("8")>=0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    private static boolean faceIn(String card, String hand) {
+        if(isTen(card)){
             if(hand.indexOf("10")>=0){
                 return true;
             }else{
