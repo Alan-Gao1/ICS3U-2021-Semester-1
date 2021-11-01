@@ -3,6 +3,13 @@ package Week7;
 import java.util.Scanner;
 
 public class CrazyEights {
+    // c1 = computer 1
+    // c2 = computer 2
+    // p1 = player 1
+    // hand = their hand
+    // score = their score
+    // face = the face (e.g. A,2,3,4,5)
+    // suit = the suit (e.g. H,C,S,D)
     private static final String VALID_CARDS = "AHACASAD2H2C2S2D3H3C3S3D4H4C4S4D5H5C5S5D6H6C6S6D7H7C7S7D8H8C8S8D9H9C9S9D10H10C10S10DJHJCJSJDQHQCQSQDKHKCKSKD";
     private static final String SUITS = "HCSD";
     private static int c1Score = 0;
@@ -22,6 +29,7 @@ public class CrazyEights {
         System.out.println("\n\nSome additional information:\n-Cards will represented as 2-3 characters. The face value will be 1-2 characters, and will represent either the number for first letter of the face. For example, Ace is A, 2 is 2, and King is K. The last character is the suit. H is hearts, C is clubs, S is spades, and D is diamonds. Therefore, 3D is a 3 of diamonds.\n-Your total score will be calculated after each turn, and when your score exceeds 100, the person with the least score wins");
         System.out.println("\nEnter anything to continue...have fun!");
         in.nextLine();
+        // dealing 5 cards to each user
         intialSetup();
         boolean allHandsOne = true;
         // this while loop runs as long as every single hand as at least ONE card (allHandsOne) and as long as every single hand has a score below 100
@@ -35,6 +43,7 @@ public class CrazyEights {
                 drawn = 0;
                 // draws a card as long as there is no valid card. Stops at 5 cards drawn and returns "NONE"
                 c1Play = drawUntilValid(drawn, c1Play, c1Hand, c2Hand, p1Hand, played, 1);
+                // the code segment that process and modifies the hand when the play is not "NONE"
                 if(!c1Play.equals("NONE")){
                     played = c1Play;
                     System.out.println("Computer 1 plays "+played);
@@ -183,7 +192,9 @@ public class CrazyEights {
      * @param p1Score - Score of Player 1
      */
     private static void winnerOut(int c1Score, int c2Score, int p1Score) {
+        // finds the lowest score
         int winner = Math.min(c1Score, Math.min(c2Score, p1Score));
+        // checks which of the scores is equal to the lowest score
         if(winner==c1Score){
             System.out.println("\n-----------------------------------\nCOMPUTER ONE HAS WON!");
             System.out.println("--------------------\nOTHER HANDS:");
@@ -250,8 +261,10 @@ public class CrazyEights {
      */
     private static String getValidInput(String play, Scanner in, String played) {
         boolean isValid = false;
+        // p = played (top card)
         String pface = findFace(played);
         String psuit = findSuit(played);
+        // play = play (the player's play)
         String playFace = findFace(play);
         String playSuit = findSuit(play);
         while(!isValid){
@@ -261,6 +274,7 @@ public class CrazyEights {
                 System.out.println("Card not in hand. Try again.");
             }else if(!(pface.equals(playFace)||psuit.equals(playSuit))&&!playFace.equals("8")){
                 System.out.println("Not a valid play. Must have a matching face, suit or be an 8.");
+            // this is just hard coding an edge case :/
             }else if(playFace.equals(playSuit)){
                 System.out.println("Not a valid play.");
             }else{
@@ -309,9 +323,12 @@ public class CrazyEights {
      * @return
      */
     private static int calculateScore(String hand){
+        // resets score each time so that when a user has no cards, their score will be the lowest possible and to keep it consistent
         int score = 0;
         for(int i = 0; i<hand.length(); i++){
             String cur = hand.substring(i, i+1);
+            // checks every character in the hand for a matching face and adds the according score
+            // if there is a "1" then its a 10; so add 10
             if(cur.equals("1")){
                 score+=10;
             }else if(cur.equals("K")||cur.equals("Q")||cur.equals("J")){
@@ -364,12 +381,14 @@ public class CrazyEights {
         String tempPlay = "";
         // rule 4
         if((otherHand.length()<4||p1Hand.length()<4)&&(faceIn(played, curHand)||eightIn(curHand))){
+            // checks for face in in rule 4
             if(faceIn(played, curHand)){
                 if(tenIn(curHand)){
                     tempPlay = curHand.substring(curHand.indexOf("10"), curHand.indexOf("10")+3);
                 }else{
                     tempPlay = curHand.substring(curHand.indexOf(playedFace), curHand.indexOf(playedFace)+2);
                 }
+            // checks for the 8 in rule 4
             }else if(eightIn(curHand)){
                 tempPlay = curHand.substring(curHand.indexOf("8"), curHand.indexOf("8")+1);
                 tempPlay += cWildSuit(curHand);
@@ -377,15 +396,20 @@ public class CrazyEights {
         // rule 1
         }else if(suitIn(played, curHand)){
             int ind = curHand.indexOf(playedSuit);
+            // normal suit play
             if(!curHand.substring(ind-1, ind).equals("8")&&!curHand.substring(ind-1, ind).equals("0")){
                 tempPlay = curHand.substring(ind-1, ind+1);
+            // plays the first suit that is a 10
             }else if(!curHand.substring(ind-1, ind).equals("8")){
                 tempPlay = curHand.substring(ind-2, ind+1);
+            // if first matching suit is an 8
             }else if(curHand.substring(ind-1, ind).equals("8")){
                 String tempHand = curHand;
+                // removes all the 8 cards in the hand
                 while(tempHand.indexOf("8")>=0){
                     tempHand = tempHand.substring(0,tempHand.indexOf("8"))+tempHand.substring(tempHand.indexOf("8")+2);
                 }
+                // rechecks hand for non-8 matching suit cards
                 if(suitIn(played, tempHand)){
                     ind = tempHand.indexOf(playedSuit);
                     if(!tempHand.substring(ind-2, ind).equals("10")){
@@ -398,14 +422,13 @@ public class CrazyEights {
                 }
             }
         // rule 2
+        // logic is similar to code segment above
         }else if(faceIn(played, curHand)){
             int ind = curHand.indexOf(playedFace);
-            System.out.println(ind);
             if(!curHand.substring(ind,ind+1).equals("8")&&!curHand.substring(ind+1, ind+2).equals("0")){
                 tempPlay = curHand.substring(ind, ind+2);
             }else if(!curHand.substring(ind,ind+1).equals("8")){
                 tempPlay = curHand.substring(ind, ind+3);
-                System.out.println(tempPlay);
             }else if(curHand.substring(ind, ind+1).equals("8")){
                 String tempHand = curHand;
                 while(tempHand.indexOf("8")>=0){
@@ -413,7 +436,7 @@ public class CrazyEights {
                 }
                 if(faceIn(played, tempHand)){
                     ind = tempHand.indexOf(playedFace);
-                    if(!tempHand.substring(ind, ind+1).equals("0")){
+                    if(!tempHand.substring(ind+1, ind+2).equals("0")){
                         tempPlay = tempHand.substring(ind, ind+2);
                     }else{
                         tempPlay = tempHand.substring(ind, ind+1);
@@ -423,9 +446,11 @@ public class CrazyEights {
                 }
             }
         // rule 3
+        // checks if there is an eight, and if so, takes the 8 out of the hand and gets a valid suit in hand and plays it
         }else if(eightIn(curHand)){
             tempPlay = curHand.substring(curHand.indexOf("8"), curHand.indexOf("8")+1);
             tempPlay += cWildSuit(curHand);
+        // otherwise, returns "NONE" to signify no valid card in hand
         }else{
             tempPlay = "NONE";
         }
@@ -441,6 +466,7 @@ public class CrazyEights {
         int ind = (int)(Math.random()*4);
         String ans = "";
         while(!validSuit){
+            // takes a random index of SUITS and if that suit is in the hand, it will play that suit
             if(curHand.indexOf(SUITS.substring(ind, ind+1))>=0){
                 ans = SUITS.substring(ind, ind+1);
                 validSuit = true;
