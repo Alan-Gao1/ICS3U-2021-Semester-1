@@ -4,22 +4,11 @@ package Week9;
 We are inheriting everything from rectangle into Box
 */
 public class Box extends Rectangle{
-    /**
-     * If you do not write an explicit constructor then Java supplies this one for you
-     * It does NOTHING except call your parents no-argument contructor
-     
-    public Box(){
-        // super is the parent class (in this case Rectangle)
-        super();
-    }
-    */
 
     private double height;
 
     public Box(double l, double w, double h){
-        // length = l; //child classes do not have direct access to their parents privatre attributes and methods
-        // width = w;
-        super(l,w); //this must me the first statement in your constructor class
+        super(l,w);
         height = h;
     }
 
@@ -54,9 +43,6 @@ public class Box extends Rectangle{
         return "Box with length of "+super.getLength()+" and width of "+super.getWidth()+" and height of "+height+" and volume of "+getVolume();
     }
 
-    /*
-    really just gets all the edges
-    */
     public double getPerimeter(){
         return super.getPerimeter()*2 + 4*height;
     }
