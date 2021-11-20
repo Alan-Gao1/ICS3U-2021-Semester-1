@@ -13,7 +13,6 @@ public class Rectangle {
         length = side;
         width = side;
     }
-
     public double getArea(){
         return length*width;
     }
