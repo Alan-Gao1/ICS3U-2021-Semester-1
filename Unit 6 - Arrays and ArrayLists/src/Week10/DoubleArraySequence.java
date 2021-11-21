@@ -117,19 +117,19 @@ public class DoubleArraySequence {
     **/
    public void addAfter(double d) {
       if(manyItems!=0){
-         currentIndex++;
+         currentIndex = manyItems-1;
       }
-      if(currentIndex>data.length-1){
-         double[] temp = new double[data.length*2];
-         for(int i = 0; i<data.length; i++){
-            temp[i] = data[i];
-         }
-         data = temp;
+      if(manyItems==data.length){
+         ensureCapacity(data.length*2);
       }
-      data[currentIndex] = d;
-      manyItems++;
+		if(currentIndex==0&&manyItems==0){
+         data[currentIndex] = d;
+      }else{
+         data[currentIndex+1] = d;
+      }
+		manyItems++;
+      currentIndex = manyItems-1;
    }
-
    /**
     * Add a new element to this sequence, before the current element. If the new
     * element would take this sequence beyond its current capacity, then the
@@ -155,20 +155,32 @@ public class DoubleArraySequence {
          }
          data = temp;
       }
-      double store = 0.0;
-      double insert = element;
-      for (int i = 0; i < data.length; i++) {
-         if(i>=currentIndex){
-            store = data[i];
-            if(i==currentIndex){
-               data[i] = insert;
-            }else{
-               data[i] = insert;
+      if(isCurrent()){
+         double store = 0.0;
+         double insert = element;
+         for (int i = 0; i < data.length; i++) {
+            if(i>=currentIndex){
+               store = data[i];
+               if(i==currentIndex){
+                  data[i] = insert;
+               }else{
+                  data[i] = insert;
+               }
+               insert = store;
             }
+         }
+         manyItems++;
+      }else{
+         double store = 0.0;
+         double insert = element;
+         for (int i = 0; i < data.length; i++) {
+            store = data[i];
+            data[i] = insert;
             insert = store;
          }
+         manyItems++;
+         currentIndex=0;
       }
-      manyItems++;
    }
 
    /**
@@ -227,14 +239,10 @@ public class DoubleArraySequence {
     *                                  so advance may not be called.
     **/
    public void advance() {
-      if (!isCurrent())
+      if (!isCurrent()){
          throw new IllegalStateException("No Current Element!");
-
-      if(currentIndex+1>data.length-1){
-         currentIndex = 0;
-      }else{
-         currentIndex++;
       }
+      currentIndex++;
    }
 
    /**
@@ -328,10 +336,7 @@ public class DoubleArraySequence {
     *         element at the moment)
     **/
    public boolean isCurrent() { // see if sequence has a specified current element
-      if(currentIndex==0 && manyItems==data.length){
-         return false;
-      }
-      return currentIndex != manyItems;
+      return manyItems != currentIndex;
    }
 
    /**
