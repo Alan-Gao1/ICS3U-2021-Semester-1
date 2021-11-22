@@ -5,13 +5,16 @@ public class SortingAlgorithims{
         int[] arr = {30,20,5,70,90,85,10};
         //selectionSort(arr);
         insertionSort(arr);
+        for (int i = 0; i < arr.length; i++) {
+            System.out.println(arr[i]);
+        }
     }
 
     private static void insertionSort(int[] arr) {
         for(int i = 1; i<arr.length; i++){
             int temp = arr[i];
             int j;
-            for(j=i; j>0&&temp<arr[j]; j--){
+            for(j=i; j>0&&temp<arr[j-1]; j--){
                 arr[j] = arr[j-1];
             }
             arr[j] = temp;
